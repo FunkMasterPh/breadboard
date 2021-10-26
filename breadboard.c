@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 int addResistor(int row, int column, int row2, int column2, char** breadboard){
+    static char count = '1';
     while(1){
         printf("Add row and column number where you want to place the first leg of resistor: \n");
         scanf("%d %d", &row, &column);
@@ -21,8 +22,8 @@ int addResistor(int row, int column, int row2, int column2, char** breadboard){
             continue;
         }
         else{
-            breadboard[row-1][column-1] = '1';
-            breadboard[row2-1][column2-1]= '1';
+            breadboard[row-1][column-1] = count;
+            breadboard[row2-1][column2-1]= count;
              if(column > column2){
                 for(int i = column2 + 1; i < column; i++){
                     breadboard[row-1][i-1] = '-';
@@ -31,6 +32,7 @@ int addResistor(int row, int column, int row2, int column2, char** breadboard){
             for(int i = column + 1; i < column2; i++){
                 breadboard[row-1][i-1] = '-';
             }
+            count++;
             printf("Resistor added.\n");
             break;
         }    
