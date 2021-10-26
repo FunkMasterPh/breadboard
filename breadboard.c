@@ -48,42 +48,31 @@ int removeResistor(int row, int column, int row2, int column2, int** breadboard)
 }
 
 void printBreadboard(char** breadboard, int rows, int columns){
-    
-    if(columns > 10){
-        printf(" ");
-    }else{
-        printf("  ");
-    }
-    if(columns >= 10){
-        for(int i = 1; i <= columns; i++){
-            printf("%d  ", i);
+    printf("   ");
+    for(int i = 0; i < columns; i++){
+        if(i < 9){
+            printf("%d  ", i+1);
+        }else{
+            printf("%d ", i+1);
         }
-    }else{
-       for(int i = 1; i <= columns; i++){
-            printf("%d ", i);
-        } 
-    }    
+    }
     printf("\n");
-    if(columns >= 10){
-        for(int i = 0; i < rows; i++){
+
+    for(int i = 0; i < rows; i++){
+        if(i < 9){
+            printf("%d  ", i+1);
             for(int j = 0; j < columns; j++){
                 printf("%c  ", breadboard[i][j]);
             }
             printf("\n");
-        }
-    }else{
-        for(int i = 0; i < rows; i++){
-            if(rows >= 10){
-                printf("%d  ", i+1);
-            }else{
-                printf("%d ", i+1);
-            }
+        }else{
+            printf("%d ", i+1);
             for(int j = 0; j < columns; j++){
-                printf("%c ", breadboard[i][j]);
+                printf("%c  ", breadboard[i][j]);
             }
             printf("\n");
-        }    
-    }   
+        } 
+    }    
 }
 
 

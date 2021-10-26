@@ -25,7 +25,6 @@ int main(void){
             breadboard[i][j] = '0';
         }
     }
-    free(breadboard);
     while(1){
         printf("Choose: \n");
         printf("1. Add resistor.\n");
@@ -44,6 +43,7 @@ int main(void){
                 removeResistor(row, row2, column, column2, breadboard);
                 break;
             case 4:
+                free(breadboard);
                 exit(0);
                 break;
             default:
