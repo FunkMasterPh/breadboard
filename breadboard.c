@@ -4,8 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int addResistor(int row, int column, int row2, int column2, int** breadboard){
-    static int count = 1;
+int addResistor(int row, int column, int row2, int column2, char** breadboard){
     while(1){
         printf("Add row and column number where you want to place the first leg of resistor: \n");
         scanf("%d %d", &row, &column);
@@ -17,22 +16,21 @@ int addResistor(int row, int column, int row2, int column2, int** breadboard){
         }else if(column == column2){
             printf("Can't place two resistor legs in same slot.\n");
             continue;
-        }else if(breadboard[row-1][column-1] == 1 || breadboard[row-1][column-1] == 2){
+        }else if(breadboard[row-1][column-1] == '1' || breadboard[row-1][column-1] == '-'){
             printf("Slot already occupied.\n");
             continue;
         }
         else{
-            breadboard[row-1][column-1] = count;
-            breadboard[row2-1][column2-1]= count;
-            if(column > column2){
+            breadboard[row-1][column-1] = '1';
+            breadboard[row2-1][column2-1]= '1';
+             if(column > column2){
                 for(int i = column2 + 1; i < column; i++){
-                    breadboard[row-1][i-1] = 2;
+                    breadboard[row-1][i-1] = '-';
                 }
             }
             for(int i = column + 1; i < column2; i++){
-                breadboard[row-1][i-1] = 2;
+                breadboard[row-1][i-1] = '-';
             }
-            count++;
             printf("Resistor added.\n");
             break;
         }    
@@ -47,11 +45,11 @@ int removeResistor(int row, int column, int row2, int column2, int** breadboard)
     return 0; 
 }
 
-void printBreadboard(int** breadboard, int rows, int columns){
+void printBreadboard(char** breadboard, int rows, int columns){
     
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < columns; j++){
-            printf("%d", breadboard[i][j]);
+            printf("%c", breadboard[i][j]);
         }
         printf("\n");
     }

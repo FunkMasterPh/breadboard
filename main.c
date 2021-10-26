@@ -16,13 +16,13 @@ int main(void){
     scanf("%d", &rows);
     printf("How many columns do you want: \n");
     scanf("%d", &columns);
-    int** breadboard = malloc(rows * sizeof(int*));
+    char** breadboard = malloc(rows * sizeof(char*));
     for(int i = 0; i < rows; i++){
-        breadboard[i] = malloc(columns * sizeof(int));
+        breadboard[i] = malloc(columns * sizeof(char));
     }
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < columns; j++){
-            breadboard[i][j] = 0;
+            breadboard[i][j] = '0';
         }
     }
     free(breadboard);
