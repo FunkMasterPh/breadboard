@@ -46,7 +46,8 @@ int main(void){
             case 4:
                 exit(0);
                 break;
-
+            default:
+                continue;
         }
     }    
     return 0;
