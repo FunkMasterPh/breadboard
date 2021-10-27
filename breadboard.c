@@ -40,12 +40,26 @@ int addResistor(int row, int column, int row2, int column2, char** breadboard){
     return 0;
 }
 
-int removeResistor(int row, int column, int row2, int column2, int** breadboard){
-    printf("Choose one leg of existing resistor to remove: \n");
-    scanf("%d", &row);
-
-    return 0; 
+int removeResistor(char** breadboard, char resistorNumber, int rows, int columns){
+    printf("Enter number of the resistor you want to remove: \n");
+    getc(stdin);
+    scanf("%c", &resistorNumber);
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < columns; j++){
+            if(breadboard[i][j] == resistorNumber){
+                char* index1 = &breadboard[i][j];
+                index1++;
+                while(*index1 == '-'){
+                    *index1 = '0';
+                    index1++;
+                }
+            breadboard[i][j] = '0';
+            }    
+        }
+    }
+        return 0;
 }
+
 
 void printBreadboard(char** breadboard, int rows, int columns){
     printf("   ");

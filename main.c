@@ -3,7 +3,8 @@
 #include "breadboard.h"
 
 int main(void){
-
+    
+    int resistorNumber;
     int rows;
     int columns;
     int row;
@@ -40,7 +41,7 @@ int main(void){
                 printBreadboard(breadboard, rows, columns);
                 break;
             case 3:
-                removeResistor(row, row2, column, column2, breadboard);
+                removeResistor(breadboard, resistorNumber, rows, columns);
                 break;
             case 4:
                 free(breadboard);
