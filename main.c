@@ -9,7 +9,7 @@ int main(void){
     char count = '1';
     
     while(1){
-        //taking user input to determine size of breadboard
+        //takes user input to determine size of breadboard from rows and columns
         printf("How many rows do you want: \n");
         if(scanf("%d", &rows) != 1){
             printf("Invalid input.\n");
@@ -24,7 +24,7 @@ int main(void){
         }
     break;
     }
-    //allocates memory for bredboard and visited array
+    //allocates needed memory for breadboard and visited array
     char** breadboard = malloc(rows * sizeof(char*));
     for(int i = 0; i < rows; i++){
         breadboard[i] = malloc(columns * sizeof(char));
@@ -37,7 +37,7 @@ int main(void){
         }
     }
     while(1){
-        //main menu
+        //code for the main menu
         printf("Choose: \n");
         printf("1. Add resistor.\n");
         printf("2. Print current breadboard.\n");

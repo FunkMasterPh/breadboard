@@ -40,7 +40,7 @@ int addResistor(int row, int row2, char** breadboard, int rows, int columns, cha
             continue;
         }
         else{
-            //placing of resistor
+            //placing of resistor and '-' between resistor legs
             breadboard[row-1][column-1] = count;
             breadboard[row2-1][column2-1]= count;
              if(column > column2){

@@ -1,5 +1,5 @@
 #include <stdbool.h>
-
+//declaration of all breadboard functions
 int addResistor(int row, int row2, char** breadboard, int rows, int columns, char count);
 int removeResistor(char** breadboard, int rows, int columns, char count);
 void printBreadboard(char** breadboard, int rows, int columns);
