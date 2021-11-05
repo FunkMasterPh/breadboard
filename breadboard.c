@@ -4,44 +4,43 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int addResistor(int row, int column, int row2, int column2, char** breadboard, int rows, int columns, char count){
+int addResistor(int row, int row2, char** breadboard, int rows, int columns, char count){
+    int column, column2;
+    //takes user input and places resistor if data inputted correctly
     while(1){
         printf("Add row and column number where you want to place the first leg of resistor: \n");
         if(scanf("%d %d", &row, &column) != 2){
             printf("Invalid input.\n");
-            getc(stdin);
+            while ((getchar()) != '\n');
             continue;
         }
         printf("Add row and column number where you want to place the second leg of resistor: \n");
         if(scanf("%d %d", &row2, &column2) != 2){
             printf("Invalid input.\n");
-            getc(stdin);
+            while ((getchar()) != '\n');
             continue;
         }
-        if(row <= 0 || row > rows){
+        //error handling
+        if(row <= 0 || row2 <= 0 || row > rows || row2 > rows || column <= 0 || column2 <= 0 || column > columns || column2 > columns){
             printf("Invalid placement.\n");
-            getc(stdin);
-            continue;
-        }
-        if(column <= 0 || column > columns){
-            printf("Invalid placement.\n");
-            getc(stdin);
+            while ((getchar()) != '\n');
             continue;
         }
         if(row != row2){
             printf("Resistors can only be placed horizontaly.\n");
-            getc(stdin);
+            while ((getchar()) != '\n');
             continue;
         }else if(column == column2){
             printf("Can't place two resistor legs in same slot.\n");
-            getc(stdin);
+            while ((getchar()) != '\n');
             continue;
-        }else if(breadboard[row-1][column-1] == '1' || breadboard[row-1][column-1] == '-'){
+        }else if(breadboard[row-1][column-1] > '0' || breadboard[row-1][column-1] == '-'){
             printf("Slot already occupied.\n");
-            getc(stdin);
+            while ((getchar()) != '\n');
             continue;
         }
         else{
+            //placing of resistor
             breadboard[row-1][column-1] = count;
             breadboard[row2-1][column2-1]= count;
              if(column > column2){
@@ -53,23 +52,73 @@ int addResistor(int row, int column, int row2, int column2, char** breadboard, i
                 breadboard[row-1][i-1] = '-';
             }
             printf("Resistor added.\n");
-            getc(stdin);
+            while ((getchar()) != '\n');
             break;
         }    
     }
     return 0;
 }
 
-int removeResistor(char** breadboard, char resistorNumber, int rows, int columns, char count){
-    getc(stdin);
+int findConnection(int rows, char** breadboard, int start, int end, bool* visited){
+    //checks if current column is end point in connection
+    if(visited[end]){
+        return 1;
+    }
+    //takes user input and loops trough the breadboard to find connection
+    for(int i = 0; i < rows; i++){
+        if(breadboard[i][start] > '0'){
+            //checks if connection goes to the right by checking next index for '-',
+            //if true marks current column visited and calls funtion again
+            if(breadboard[i][start+1] == '-'){
+                start++;
+                while(breadboard[i][start] == '-'){
+                    start++;
+                }
+                int x = start;
+                if(visited[x] != true){
+                    visited[x] = true;
+                    if(findConnection(rows, breadboard, x, end, visited)){
+                        return 1;
+                    }
+                }else{
+                    continue;
+                }
+            //checks if connection goes to the left by checking previous index for '-', 
+            //if true marks current column visited and calls funtion again
+            }else if(breadboard[i][start-1] == '-'){
+                start--;
+                while(breadboard[i][start] == '-'){
+                    start--;
+                }
+                int x = start;
+                if(visited[x] != true){
+                    visited[x] = true;
+                    if(findConnection(rows, breadboard, x, end, visited)){
+                        return 1;
+                    }
+                }else{
+                    continue;
+                }
+            }   
+        }
+    }
+    return 0;
+}
+
+int removeResistor(char** breadboard, int rows, int columns, char count){
+    char resistorNumber;
+    //clears input buffer
+    while ((getchar()) != '\n');
     while(1){
+        //takes the number of the resistor to remove and checks for user error
         printf("Enter number of the resistor you want to remove: \n");
-        if(scanf("%c", &resistorNumber) != 1 || resistorNumber > count || resistorNumber <= '0'){
+        if(scanf("%c", &resistorNumber) != 1 || resistorNumber >= count || resistorNumber <= '0'){
             printf("Invalid input.\n");
             continue;
         }
     break; 
-    } 
+    }
+    //finds the right resistor and removes it
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < columns; j++){
             if(breadboard[i][j] == resistorNumber){
@@ -83,19 +132,21 @@ int removeResistor(char** breadboard, char resistorNumber, int rows, int columns
             }
         } 
     }
+    //lowers the resistor number of the rest of the resistors to keep count consistant
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < columns; j++){
-            if(breadboard[i][j] > '1'){
+            if(breadboard[i][j] > resistorNumber){
                 breadboard[i][j]--;
-            }    
+            } 
         }
     }
     printf("Resistor removed.\n");
-    getc(stdin);
+    while ((getchar()) != '\n');
     return 0;
 }
 
 void printBreadboard(char** breadboard, int rows, int columns){
+    //prints the breadboard with formatting
     printf("   ");
     for(int i = 0; i < columns; i++){
         if(i < 9){
@@ -123,6 +174,19 @@ void printBreadboard(char** breadboard, int rows, int columns){
     } 
     getc(stdin);
 }
+
+int checkIfOccupied(char** breadboard, int rows, int columns, int row, int row2, int start, int end){
+    //loops trough the whole breadboard and checks if inputted slot is occupied
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < columns; j++){
+            if(breadboard[row-1][start-1] > '0' && breadboard[row2-1][end-1] > '0'){
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 
 
 #endif
